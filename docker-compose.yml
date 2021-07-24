@@ -1,15 +1,15 @@
-version: "3.7"
+version: "3.2"
 
 services:
   app:
     image: kangana512/demodeploy:latest
     ports:
-      - "3000:4555"
+      - "4555:3000"
     deploy:
       replicas: 3
       restart_policy:
         condition: on-failure
-    environment: # Pass environment variables to the service
+    environment:
       TESTENV: testenv
     networks:
       - webnet
