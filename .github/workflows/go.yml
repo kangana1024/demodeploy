@@ -41,14 +41,7 @@ jobs:
           tags: kangana512/demodeploy:latest
 
       - name: Deploy to Docker swarm
-        uses: wshihadeh/docker-deployment-action@v1
+        uses: joelwmale/webhook-action@master
         with:
-          remote_docker_host: ssh://root@103.253.72.230
-          ssh_private_key: ${{ secrets.DOCKER_SSH_PRIVATE_KEY }}
-          ssh_public_key: ${{ secrets.DOCKER_SSH_PUBLIC_KEY }}
-          deployment_mode: docker-swarm
-          copy_stack_file: true
-          deploy_path: /root/demodeploy
-          stack_file_name: docker-compose.yml
-          keep_files: 5
-          args: demodeploy
+          url: ${{ secrets.WEBHOOK }}
+          headers: '{"repository": "kangana1024/demodeploy"}'
