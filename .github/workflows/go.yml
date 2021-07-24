@@ -40,36 +40,15 @@ jobs:
           push: true
           tags: kangana512/demodeploy:latest
 
-      - name: deploy to portainer
-        uses: LGinC/portainer-stack-deploy@master
+      - name: Deploy to Docker swarm
+        uses: wshihadeh/docker-deployment-action@v1
         with:
-          serverurl: http://103.253.72.230:9000
-          username: ${{ secrets.PORTAINER_USERNAME }}
-          password: ${{ secrets.PORTAINER_PASSWORD }}
-          endpointId: 1
-          stackname: demodeploy
-          imagename: kangana512/demodeploy:latest
-          docker_compose: |
-            version: "3.7"
-
-            services:
-              app:
-                image: kangana512/demodeploy:latest
-                ports:
-                  - "4555:3000"
-                deploy:
-                  replicas: 3
-                  restart_policy:
-                    condition: on-failure
-                environment:
-                  TESTENV: testenv
-                networks:
-                  - webnet
-                deploy:
-                  placement:
-                    constraints:
-                      - node.role == manager
-            networks:
-              webnet:
-                driver: overlay
-                attachable: true
+          remote_docker_host: ssh://root@103.253.72.230
+          ssh_private_key: ${{ secrets.DOCKER_SSH_PRIVATE_KEY }}
+          ssh_public_key: ${{ secrets.DOCKER_SSH_PUBLIC_KEY }}
+          deployment_mode: docker-swarm
+          copy_stack_file: true
+          deploy_path: /root/demodeploy
+          stack_file_name: docker-compose.yml
+          keep_files: 5
+          args: demodeploy
