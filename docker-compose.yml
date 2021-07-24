@@ -1,0 +1,23 @@
+version: "3.7"
+
+services:
+  app:
+    image: kangana512/demodeploy:latest
+    ports:
+      - "3000:4555"
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 50M
+      restart_policy:
+        condition: on-failure
+    environment: # Pass environment variables to the service
+      TESTENV: testenv
+    networks:
+      - webnet
+networks:
+  webnet:
+    driver: overlay
+    attachable: true
