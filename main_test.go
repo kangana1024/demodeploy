@@ -9,4 +9,8 @@ func TestAdd(t *testing.T) {
 	if got != want {
 		t.Fatalf("Want %d got %d", want, got)
 	}
+
+	if 1 != 1 {
+		t.Fatal("1 != 1")
+	}
 }
