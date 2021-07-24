@@ -39,7 +39,7 @@ jobs:
         with:
           push: true
           tags: kangana512/demodeploy:latest
-          
+
       - name: deploy to portainer
         uses: LGinC/portainer-stack-deploy@master
         with:
@@ -49,3 +49,27 @@ jobs:
           endpointId: 1
           stackname: demodeploy
           imagename: kangana512/demodeploy:latest
+          docker_compose: |
+            version: "3.7"
+
+            services:
+              app:
+                image: kangana512/demodeploy:latest
+                ports:
+                  - "4555:3000"
+                deploy:
+                  replicas: 3
+                  restart_policy:
+                    condition: on-failure
+                environment:
+                  TESTENV: testenv
+                networks:
+                  - webnet
+                deploy:
+                  placement:
+                    constraints:
+                      - node.role == manager
+            networks:
+              webnet:
+                driver: overlay
+                attachable: true
