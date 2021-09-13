@@ -12,4 +12,4 @@ WORKDIR /root/
 
 COPY --from=0 /go/src/demodeploy/main ./
 EXPOSE 3000
-CMD ["./main"] 
+CMD ["sh", "-c", "/main"]
