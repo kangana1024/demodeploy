@@ -8,12 +8,12 @@ on:
 
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: Set up Go
         uses: actions/setup-go@v2
         with:
-          go-version: 1.16
+          go-version: 1.19
 
       - name: Check out code into the go module dir
         uses: actions/checkout@v2
@@ -33,9 +33,15 @@ jobs:
         with:
           push: true
           tags: kangana512/demodeploy:latest
+  deploy:
+      runs-on: self-hosted
+      steps:
+        - name: Pull Docker
+          run: |
+            docker pull kangana512/demodeploy:latest
 
-      - name: Deploy to Docker swarm
-        uses: joelwmale/webhook-action@master
-        with:
-          url: ${{ secrets.WEBHOOK }}
-          headers: '{"repository": "kangana1024/demodeploy"}'
+        - name: Deploy to Docker swarm
+          uses: joelwmale/webhook-action@master
+          with:
+            url: ${{ secrets.WEBHOOK }}
+            headers: '{"repository": "kangana1024/demodeploy"}'
