@@ -36,6 +36,11 @@ jobs:
   deploy:
       runs-on: self-hosted
       steps:
+        - name: Login to DockerHub
+          uses: docker/login-action@v1
+          with:
+            username: ${{ secrets.DOCKERHUB_USERNAME }}
+            password: ${{ secrets.DOCKERHUB_TOKEN }}
         - name: Pull Docker
           run: |
             docker pull kangana512/demodeploy:latest
