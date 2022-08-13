@@ -48,7 +48,5 @@ jobs:
           docker pull kangana512/demodeploy:latest
 
       - name: Deploy to Docker swarm
-        uses: joelwmale/webhook-action@master
-        with:
-          url: ${{ secrets.WEBHOOK }}
-          headers: '{"repository": "kangana1024/demodeploy"}'
+        run: |
+          curl -X POST -H "Content-Type: application/json"  -d '{"repository": "kangana1024/demodeploy"}' ${{ secrets.WEBHOOK }}
