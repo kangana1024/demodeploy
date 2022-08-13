@@ -40,7 +40,7 @@ jobs:
           tags: kangana512/demodeploy:latest
   deploy:
     runs-on: self-hosted
-    environment: production
+    needs: build
     steps:
       - name: Login to DockerHub
         uses: docker/login-action@v1
